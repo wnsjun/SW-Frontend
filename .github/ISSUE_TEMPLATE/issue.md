@@ -1,6 +1,6 @@
 ---
 name: Issue
-about: Playtab FE 이슈 템플릿입니다.
+about: SW-TaskTracker FE 이슈 템플릿입니다.
 title: "커밋타입: 주요작업내용"
 labels: ""
 assignees: ""
