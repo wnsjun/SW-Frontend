@@ -1,6 +1,18 @@
 @import 'tailwindcss';
 @import './styles/font.css';
 
+html, body {
+  background-color: #f3f4f6;
+}
+
+#root {
+  width: 390px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: #ffffff;
+  overflow-x: clip;
+}
+
 @theme {
   --color-primary: #006D36;
 }
