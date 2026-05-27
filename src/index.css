@@ -6,11 +6,7 @@ html, body {
 }
 
 #root {
-  width: 390px;
-  min-height: 100vh;
-  margin: 0 auto;
   background-color: #ffffff;
-  overflow-x: clip;
 }
 
 @theme {
