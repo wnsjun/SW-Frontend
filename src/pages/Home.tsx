@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/common/Navbar';
 import AiCoaching from '../components/home/AiCoaching';
 import TodayGoal from '../components/home/TodayGoal';
@@ -23,6 +24,7 @@ const MOCK_HABITS: Habit[] = [
 ];
 
 export default function Home() {
+  const navigate = useNavigate();
   const [habits, setHabits] = useState<Habit[]>(MOCK_HABITS);
   const [filter, setFilter] = useState<HabitFilterType>('ALL');
 
@@ -49,12 +51,18 @@ export default function Home() {
           <TotalStreak streak={10} />
         </div>
 
-        <span
-          className={`${typo.B1_Rg} text-[#191C1D] mt-[30px]`}
-          style={{ lineHeight: '24px' }}
-        >
-          오늘의 습관
-        </span>
+        <div className="flex justify-between items-center mt-[30px]">
+          <span className={`${typo.B1_Rg} text-[#191C1D]`} style={{ lineHeight: '24px' }}>
+            오늘의 습관
+          </span>
+          <span
+            className={`${typo.B4_Rg} text-[#006D36] tracking-[0.6px] cursor-pointer`}
+            style={{ lineHeight: '16px' }}
+            onClick={() => navigate('/habits')}
+          >
+            전체보기
+          </span>
+        </div>
 
         <div className="flex flex-col mt-[15px]" style={{ gap: '12px' }}>
           <AddHabitCard />
