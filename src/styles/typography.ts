@@ -37,6 +37,7 @@ export const typo = {
   T1_Eb: "font-pretendard-eb text-t1",
   T1_Sb: "font-pretendard-sb text-t1",
   T1_Md: "font-pretendard-md text-t1",
+  T1_Rg: "font-pretendard-rg text-t1",
   T2_Bd: "font-pretendard-bd text-t2",
 
   // ── Body ─────────────────────────────────
