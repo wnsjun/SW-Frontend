@@ -27,6 +27,7 @@
 export const typo = {
   // ── Display ──────────────────────────────
   Display_Sb: "font-pretendard-sb text-display",
+  Display_Bd: "font-pretendard-bd text-display",
 
   // ── Heading ──────────────────────────────
   H1_Bd: "font-pretendard-bd text-h1",
@@ -38,6 +39,7 @@ export const typo = {
   T2_Bd: "font-pretendard-bd text-t2",
 
   // ── Body ─────────────────────────────────
+  B1_Rg: "font-pretendard-rg text-b1",
   B2_Md: "font-pretendard-md text-b2",
   B2_Bd: "font-pretendard-bd text-b2",
   B2_Rg: "font-pretendard-rg text-b2",
