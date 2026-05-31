@@ -16,11 +16,12 @@ function StatCard({
 }) {
   return (
     <div
-      className="flex flex-col items-center p-[16px] rounded-[12px] border border-[#F3F4F6]"
+      className="flex flex-col items-center p-[16px] rounded-[12px]"
       style={{
         flex: 1,
-        background: 'rgba(255, 255, 255, 0.70)',
-        backdropFilter: 'blur(5px)',
+        background: '#FFF',
+        border: '1px solid rgba(188, 202, 187, 0.20)',
+        boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.04)',
       }}
     >
       <span className={`${typo.T1_Md}`} style={{ color: valueColor, lineHeight: '24px' }}>
