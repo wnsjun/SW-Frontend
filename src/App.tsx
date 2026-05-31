@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Home from './pages/Home';
 import Mypage from './pages/Mypage';
+import HabitList from './pages/HabitList';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/home" element={<Home />} />
           <Route path="/mypage" element={<Mypage />} />
+          <Route path="/habits" element={<HabitList />} />
         </Routes>
       </Layout>
     </BrowserRouter>
