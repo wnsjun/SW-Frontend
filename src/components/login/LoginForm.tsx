@@ -44,9 +44,6 @@ export default function LoginForm() {
       </div>
       {error && <p className={`${typo.B4_Sb} text-red-500 self-center`}>{error}</p>}
       <Button type="submit">로그인</Button>
-      <span className={`${typo.B4_Sb} tracking-[0.36px] text-[#45464D] self-center`}>
-        비밀번호를 잊으셨나요?
-      </span>
       <p className="self-center">
         <span className={`${typo.B2_Rg} text-[#45464D]`}>계정이 없으신가요? </span>
         <span
