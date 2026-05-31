@@ -65,7 +65,7 @@ export default function Home() {
         </div>
 
         <div className="flex flex-col mt-[15px]" style={{ gap: '12px' }}>
-          <AddHabitCard />
+          <AddHabitCard onClick={() => navigate('/habits/new')} />
           {filteredHabits.map((habit) => (
             <HabitCard
               key={habit.id}

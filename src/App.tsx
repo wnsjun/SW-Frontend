@@ -5,6 +5,7 @@ import Signup from './pages/Signup';
 import Home from './pages/Home';
 import Mypage from './pages/Mypage';
 import HabitList from './pages/HabitList';
+import HabitForm from './pages/HabitForm';
 
 function App() {
   return (
@@ -16,7 +17,8 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/habits" element={<HabitList />} />
-          <Route path="/habits/edit/:id" element={<div />} />
+          <Route path="/habits/new" element={<HabitForm />} />
+          <Route path="/habits/edit/:id" element={<HabitForm />} />
         </Routes>
       </Layout>
     </BrowserRouter>
