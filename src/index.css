@@ -32,6 +32,8 @@ html, body {
   .text-b4 { font-size: 12px; line-height: 1.4; }
   .text-b5 { font-size: 10px; line-height: 1.4; }
   .text-cap { font-size: 11px; line-height: 1.27; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
 }
 
 /* 커스텀 유틸리티 및 컴포넌트 */
