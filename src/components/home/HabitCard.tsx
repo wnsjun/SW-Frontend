@@ -16,9 +16,10 @@ interface Props {
   schedule: string;
   completed: boolean;
   onToggle: () => void;
+  showCheckbox?: boolean;
 }
 
-export default function HabitCard({ title, category, schedule, completed, onToggle }: Props) {
+export default function HabitCard({ title, category, schedule, completed, onToggle, showCheckbox = true }: Props) {
   return (
     <div
       className="flex justify-between items-center self-stretch"
@@ -59,20 +60,22 @@ export default function HabitCard({ title, category, schedule, completed, onTogg
         </div>
       </div>
 
-      <button
-        onClick={onToggle}
-        className="flex justify-center items-center shrink-0"
-        style={{
-          width: '32px',
-          height: '32px',
-          borderRadius: '8px',
-          ...(completed
-            ? { background: '#4ADE80', border: 'none' }
-            : { background: 'transparent', border: '2px solid #BCCABB' }),
-        }}
-      >
-        {completed && <img src={checkIcon} width={14} height={11} alt="완료" />}
-      </button>
+      {showCheckbox && (
+        <button
+          onClick={onToggle}
+          className="flex justify-center items-center shrink-0"
+          style={{
+            width: '32px',
+            height: '32px',
+            borderRadius: '8px',
+            ...(completed
+              ? { background: '#4ADE80', border: 'none' }
+              : { background: 'transparent', border: '2px solid #BCCABB' }),
+          }}
+        >
+          {completed && <img src={checkIcon} width={14} height={11} alt="완료" />}
+        </button>
+      )}
     </div>
   );
 }
