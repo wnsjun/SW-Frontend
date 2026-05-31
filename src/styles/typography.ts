@@ -35,12 +35,16 @@ export const typo = {
   T1_Eb: "font-pretendard-eb text-t1",
   T1_Sb: "font-pretendard-sb text-t1",
   T1_Md: "font-pretendard-md text-t1",
+  T2_Bd: "font-pretendard-bd text-t2",
 
   // ── Body ─────────────────────────────────
   B2_Md: "font-pretendard-md text-b2",
   B2_Bd: "font-pretendard-bd text-b2",
   B2_Rg: "font-pretendard-rg text-b2",
+  B3_Rg: "font-pretendard-rg text-b3",
+  B3_Bd: "font-pretendard-bd text-b3",
   B4_Sb: "font-pretendard-sb text-b4",
+  B4_Rg: "font-pretendard-rg text-b4",
 } as const;
 
 export type TypoKey = keyof typeof typo;
