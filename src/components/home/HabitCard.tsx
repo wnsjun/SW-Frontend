@@ -1,5 +1,7 @@
 import { typo } from '../../styles/typography';
 import checkIcon from '../../assets/check.svg';
+import dragHandleIcon from '../../assets/drag-handle.svg';
+import removeCircleIcon from '../../assets/remove-circle.svg';
 
 export type HabitCategory = 'HEALTH' | 'LEARNING' | 'PRODUCTIVITY' | 'ETC';
 
@@ -16,9 +18,17 @@ interface Props {
   schedule: string;
   completed: boolean;
   onToggle: () => void;
+  showCheckbox?: boolean;
+  editMode?: boolean;
+  onDelete?: () => void;
+  onEdit?: () => void;
+  dragHandleProps?: React.HTMLAttributes<HTMLImageElement>;
 }
 
-export default function HabitCard({ title, category, schedule, completed, onToggle }: Props) {
+export default function HabitCard({
+  title, category, schedule, completed, onToggle,
+  showCheckbox = true, editMode = false, onDelete, onEdit, dragHandleProps,
+}: Props) {
   return (
     <div
       className="flex justify-between items-center self-stretch"
@@ -31,6 +41,16 @@ export default function HabitCard({ title, category, schedule, completed, onTogg
       }}
     >
       <div className="flex items-center" style={{ gap: '10px' }}>
+        {editMode && (
+          <img
+            src={dragHandleIcon}
+            width={16}
+            height={6}
+            alt=""
+            className="shrink-0 cursor-grab"
+            {...dragHandleProps}
+          />
+        )}
         <div
           className="flex justify-center items-center shrink-0"
           style={{
@@ -59,20 +79,41 @@ export default function HabitCard({ title, category, schedule, completed, onTogg
         </div>
       </div>
 
-      <button
-        onClick={onToggle}
-        className="flex justify-center items-center shrink-0"
-        style={{
-          width: '32px',
-          height: '32px',
-          borderRadius: '8px',
-          ...(completed
-            ? { background: '#4ADE80', border: 'none' }
-            : { background: 'transparent', border: '2px solid #BCCABB' }),
-        }}
-      >
-        {completed && <img src={checkIcon} width={14} height={11} alt="완료" />}
-      </button>
+      {editMode ? (
+        <div className="flex items-center shrink-0" style={{ gap: '10px' }}>
+          <button
+            onClick={onEdit}
+            className="font-pretendard-rg text-[#3D4A3E] tracking-[0.6px]"
+            style={{
+              padding: '8px 16px',
+              borderRadius: '8px',
+              border: '1px solid #BCCABB',
+              fontSize: '15px',
+              lineHeight: '16px',
+            }}
+          >
+            수정
+          </button>
+          <button onClick={onDelete}>
+            <img src={removeCircleIcon} width={20} height={20} alt="삭제" />
+          </button>
+        </div>
+      ) : showCheckbox && (
+        <button
+          onClick={onToggle}
+          className="flex justify-center items-center shrink-0"
+          style={{
+            width: '32px',
+            height: '32px',
+            borderRadius: '8px',
+            ...(completed
+              ? { background: '#4ADE80', border: 'none' }
+              : { background: 'transparent', border: '2px solid #BCCABB' }),
+          }}
+        >
+          {completed && <img src={checkIcon} width={14} height={11} alt="완료" />}
+        </button>
+      )}
     </div>
   );
 }

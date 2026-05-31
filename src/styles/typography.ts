@@ -31,11 +31,13 @@ export const typo = {
 
   // ── Heading ──────────────────────────────
   H1_Bd: "font-pretendard-bd text-h1",
+  H1_Md: "font-pretendard-md text-h1",
 
   // ── Title ────────────────────────────────
   T1_Eb: "font-pretendard-eb text-t1",
   T1_Sb: "font-pretendard-sb text-t1",
   T1_Md: "font-pretendard-md text-t1",
+  T1_Rg: "font-pretendard-rg text-t1",
   T2_Bd: "font-pretendard-bd text-t2",
 
   // ── Body ─────────────────────────────────
