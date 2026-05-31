@@ -1,11 +1,11 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Home, CheckSquare, BarChart2, User } from 'lucide-react';
+import { Home, BarChart2, History, User } from 'lucide-react';
 import { typo } from '../../styles/typography';
 
 const NAV_ITEMS = [
   { label: '홈', icon: Home, path: '/home' },
-  { label: '루틴', icon: CheckSquare, path: '/routine' },
   { label: '통계', icon: BarChart2, path: '/stats' },
+  { label: '히스토리', icon: History, path: '/history' },
   { label: '마이페이지', icon: User, path: '/mypage' },
 ] as const;
 
