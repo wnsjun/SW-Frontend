@@ -1,0 +1,45 @@
+import rocketIcon from '../../assets/rocket.svg';
+
+const COACHING_MESSAGE = '오늘도 챌린지를 이어가 볼까요?🔥현재 5일 연속 성공 중이에요! 조금만 더 힘내서 완주해봐요. ✨';
+
+export default function AiCoaching() {
+  return (
+    <div
+      className="flex flex-col items-start rounded-[12px]"
+      style={{
+        width: '350px',
+        padding: '16px',
+        gap: '4px',
+        background: 'linear-gradient(135deg, #006D36 0%, #4ADE80 100%)',
+        boxShadow: '4px 4px 4px 0 rgba(0, 0, 0, 0.25)',
+      }}
+    >
+      <div className="flex items-center gap-1">
+        <img src={rocketIcon} width={21} height={21} alt="" />
+        <span
+          style={{
+            color: '#FFF',
+            fontFamily: 'Pretendard',
+            fontSize: '11px',
+            fontWeight: 700,
+            lineHeight: '14px',
+          }}
+        >
+          AI코칭
+        </span>
+      </div>
+      <p
+        style={{
+          color: '#FFF',
+          fontFamily: 'Pretendard',
+          fontSize: '16px',
+          fontWeight: 400,
+          lineHeight: '22px',
+          marginTop: '3px',
+        }}
+      >
+        {COACHING_MESSAGE}
+      </p>
+    </div>
+  );
+}
