@@ -2,15 +2,23 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../common/Button';
 import { typo } from '../../styles/typography';
+import { postLogin } from '../../api/auth';
 
 export default function LoginForm() {
   const navigate = useNavigate();
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: 로그인 API 연동
+    setError('');
+    try {
+      await postLogin({ routinerId: id, password });
+      navigate('/home');
+    } catch {
+      setError('아이디 또는 비밀번호가 올바르지 않습니다.');
+    }
   };
 
   return (
@@ -34,10 +42,8 @@ export default function LoginForm() {
           className="h-16 w-full rounded-lg bg-[#E5EEFF] px-4 outline-none"
         />
       </div>
+      {error && <p className={`${typo.B4_Sb} text-red-500 self-center`}>{error}</p>}
       <Button type="submit">로그인</Button>
-      <span className={`${typo.B4_Sb} tracking-[0.36px] text-[#45464D] self-center`}>
-        비밀번호를 잊으셨나요?
-      </span>
       <p className="self-center">
         <span className={`${typo.B2_Rg} text-[#45464D]`}>계정이 없으신가요? </span>
         <span
