@@ -31,6 +31,7 @@ export const typo = {
 
   // ── Heading ──────────────────────────────
   H1_Bd: "font-pretendard-bd text-h1",
+  H1_Md: "font-pretendard-md text-h1",
 
   // ── Title ────────────────────────────────
   T1_Eb: "font-pretendard-eb text-t1",
