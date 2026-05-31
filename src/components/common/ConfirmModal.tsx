@@ -4,9 +4,11 @@ interface Props {
   message: string;
   onConfirm: () => void;
   onCancel: () => void;
+  confirmLabel?: string;
+  confirmColor?: string;
 }
 
-export default function ConfirmModal({ message, onConfirm, onCancel }: Props) {
+export default function ConfirmModal({ message, onConfirm, onCancel, confirmLabel = '삭제', confirmColor = '#BA1A1A' }: Props) {
   return (
     <div
       className="fixed inset-0 flex items-center justify-center z-50"
@@ -49,10 +51,10 @@ export default function ConfirmModal({ message, onConfirm, onCancel }: Props) {
             style={{
               padding: '12px',
               borderRadius: '8px',
-              background: '#BA1A1A',
+              background: confirmColor,
             }}
           >
-            삭제
+            {confirmLabel}
           </button>
         </div>
       </div>
