@@ -16,6 +16,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/habits" element={<HabitList />} />
+          <Route path="/habits/edit/:id" element={<div />} />
         </Routes>
       </Layout>
     </BrowserRouter>
