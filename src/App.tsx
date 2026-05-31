@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Mypage from './pages/Mypage';
 import HabitList from './pages/HabitList';
 import HabitForm from './pages/HabitForm';
+import History from './pages/History';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/habits" element={<HabitList />} />
           <Route path="/habits/new" element={<HabitForm />} />
           <Route path="/habits/edit/:id" element={<HabitForm />} />
+          <Route path="/history" element={<History />} />
         </Routes>
       </Layout>
     </BrowserRouter>
