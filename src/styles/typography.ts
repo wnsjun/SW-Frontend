@@ -45,6 +45,7 @@ export const typo = {
   B3_Bd: "font-pretendard-bd text-b3",
   B4_Sb: "font-pretendard-sb text-b4",
   B4_Rg: "font-pretendard-rg text-b4",
+  Cap_Md: "font-pretendard-md text-cap",
 } as const;
 
 export type TypoKey = keyof typeof typo;
