@@ -14,9 +14,7 @@ export default function LoginForm() {
     e.preventDefault();
     setError('');
     try {
-      const res = await postLogin({ routinerId: id, password });
-      localStorage.setItem('accessToken', res.data.token.accessToken);
-      localStorage.setItem('nickname', res.data.nickname);
+      await postLogin({ routinerId: id, password });
       navigate('/home');
     } catch {
       setError('아이디 또는 비밀번호가 올바르지 않습니다.');
