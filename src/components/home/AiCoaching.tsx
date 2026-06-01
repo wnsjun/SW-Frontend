@@ -22,12 +22,12 @@ export default function AiCoaching({ message }: Props) {
           style={{
             color: '#FFF',
             fontFamily: 'Pretendard',
-            fontSize: '11px',
+            fontSize: '15px',
             fontWeight: 700,
             lineHeight: '14px',
           }}
         >
-          AI코칭
+          AI 코칭
         </span>
       </div>
       <p
