@@ -33,8 +33,25 @@ export default function Home() {
   const [maxStreak, setMaxStreak] = useState(0);
   const [coachingMessage, setCoachingMessage] = useState('');
   const [filter, setFilter] = useState<HabitFilterType>('ALL');
-  // habitId -> checkInId (체크인 후 취소에 사용)
-  const [checkInIdMap, setCheckInIdMap] = useState<Record<number, number>>({});
+  const TODAY = new Date().toISOString().slice(0, 10);
+  const STORAGE_KEY = 'checkInIdMap';
+
+  const loadCheckInIdMap = (): Record<number, number> => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return {};
+      const parsed = JSON.parse(raw);
+      return parsed.date === TODAY ? parsed.map : {};
+    } catch {
+      return {};
+    }
+  };
+
+  const [checkInIdMap, setCheckInIdMap] = useState<Record<number, number>>(loadCheckInIdMap);
+
+  const saveCheckInIdMap = (map: Record<number, number>) => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ date: TODAY, map }));
+  };
 
   useEffect(() => {
     getTodayHabits().then((data) => {
@@ -51,12 +68,17 @@ export default function Home() {
       const checkInId = checkInIdMap[habit.id];
       if (checkInId == null) return;
       await deleteCheckIn(checkInId);
-      setCheckInIdMap((prev) => { const next = { ...prev }; delete next[habit.id]; return next; });
+      const next = { ...checkInIdMap };
+      delete next[habit.id];
+      setCheckInIdMap(next);
+      saveCheckInIdMap(next);
       setHabits((prev) => prev.map((h) => h.id === habit.id ? { ...h, completedToday: false } : h));
       setCompletedCount((c) => c - 1);
     } else {
       const data = await postCheckIn(habit.id);
-      setCheckInIdMap((prev) => ({ ...prev, [habit.id]: data.checkInId }));
+      const next = { ...checkInIdMap, [habit.id]: data.checkInId };
+      setCheckInIdMap(next);
+      saveCheckInIdMap(next);
       setHabits((prev) => prev.map((h) => h.id === habit.id ? { ...h, completedToday: true } : h));
       setCompletedCount((c) => c + 1);
     }

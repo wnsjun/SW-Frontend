@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   DndContext,
@@ -17,45 +17,33 @@ import SortableHabitCard from '../components/habit/SortableHabitCard';
 import ConfirmModal from '../components/common/ConfirmModal';
 import editIcon from '../assets/edit.svg';
 import { typo } from '../styles/typography';
-import type { HabitCategory } from '../components/home/HabitCard';
+import { getHabits, deleteHabit } from '../api/habit';
+import type { TodayHabit, DayOfWeek } from '../types/habit';
+// DayOfWeek used in FILTER_TO_DOW mapping
 
-interface Habit {
-  id: number;
-  title: string;
-  category: HabitCategory;
-  schedule: string;
-  completed: boolean;
-}
-
-const MOCK_HABITS: Habit[] = [
-  { id: 1, title: '아침 운동', category: 'HEALTH', schedule: '매일', completed: false },
-  { id: 2, title: '독서', category: 'LEARNING', schedule: '평일', completed: true },
-  { id: 3, title: '할 일 목록 작성', category: 'PRODUCTIVITY', schedule: '매일', completed: false },
-  { id: 4, title: '스트레칭', category: 'HEALTH', schedule: '월,수,금', completed: false },
-  { id: 5, title: '영어 공부', category: 'LEARNING', schedule: '주말', completed: false },
-];
-
-const WEEK_DAYS = ['일', '월', '화', '수', '목', '금', '토'];
-
-const DAY_TO_LABEL: Record<DayFilterType, string> = {
-  TODAY: WEEK_DAYS[new Date().getDay()],
-  MON: '월', TUE: '화', WED: '수', THU: '목', FRI: '금', SAT: '토', SUN: '일',
+const DAY_LABEL: Record<string, string> = {
+  MONDAY: '월', TUESDAY: '화', WEDNESDAY: '수',
+  THURSDAY: '목', FRIDAY: '금', SATURDAY: '토', SUNDAY: '일',
 };
 
-function matchesDay(schedule: string, day: DayFilterType): boolean {
-  const label = DAY_TO_LABEL[day];
-  if (schedule === '매일') return true;
-  if (schedule === '평일') return ['월', '화', '수', '목', '금'].includes(label);
-  if (schedule === '주말') return ['토', '일'].includes(label);
-  return schedule.includes(label);
+const FILTER_TO_DOW: Record<DayFilterType, DayOfWeek | undefined> = {
+  TODAY: undefined,
+  MON: 'MONDAY', TUE: 'TUESDAY', WED: 'WEDNESDAY',
+  THU: 'THURSDAY', FRI: 'FRIDAY', SAT: 'SATURDAY', SUN: 'SUNDAY',
+};
+
+function formatSchedule(habit: TodayHabit): string {
+  if (habit.frequencyType === 'DAILY') return '매일';
+  if (habit.frequencyType === 'CUSTOM') return habit.customDays.map((d) => DAY_LABEL[d]).join(', ');
+  return '주 1회';
 }
 
 export default function HabitList() {
   const navigate = useNavigate();
+  const [habits, setHabits] = useState<TodayHabit[]>([]);
   const [search, setSearch] = useState('');
   const [dayFilter, setDayFilter] = useState<DayFilterType>('TODAY');
   const [categoryFilter, setCategoryFilter] = useState<HabitFilterType>('ALL');
-  const [habits, setHabits] = useState<Habit[]>(MOCK_HABITS);
   const [editMode, setEditMode] = useState(false);
   const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
 
@@ -64,12 +52,13 @@ export default function HabitList() {
     useSensor(TouchSensor, { activationConstraint: { delay: 250, tolerance: 5 } })
   );
 
-  const toggleHabit = (id: number) => {
-    setHabits((prev) => prev.map((h) => (h.id === id ? { ...h, completed: !h.completed } : h)));
-  };
+  useEffect(() => {
+    getHabits(FILTER_TO_DOW[dayFilter]).then(setHabits);
+  }, [dayFilter]);
 
-  const deleteHabit = () => {
+  const handleDelete = async () => {
     if (deleteTargetId === null) return;
+    await deleteHabit(deleteTargetId);
     setHabits((prev) => prev.filter((h) => h.id !== deleteTargetId));
     setDeleteTargetId(null);
   };
@@ -86,10 +75,9 @@ export default function HabitList() {
   };
 
   const filtered = habits.filter((h) => {
-    const matchesSearch = h.title.includes(search);
+    const matchesSearch = h.name.includes(search);
     const matchesCategory = categoryFilter === 'ALL' || h.category === categoryFilter;
-    const matchesDayFilter = matchesDay(h.schedule, dayFilter);
-    return matchesSearch && matchesCategory && matchesDayFilter;
+    return matchesSearch && matchesCategory;
   });
 
   return (
@@ -132,13 +120,13 @@ export default function HabitList() {
                   <SortableHabitCard
                     key={habit.id}
                     id={habit.id}
-                    title={habit.title}
+                    title={habit.name}
                     category={habit.category}
-                    schedule={habit.schedule}
-                    completed={habit.completed}
+                    schedule={formatSchedule(habit)}
+                    completed={habit.completedToday}
                     editMode={editMode}
                     showCheckbox={dayFilter === 'TODAY'}
-                    onToggle={() => toggleHabit(habit.id)}
+                    onToggle={() => {}}
                     onDelete={() => setDeleteTargetId(habit.id)}
                     onEdit={() => navigate(`/habits/edit/${habit.id}`)}
                   />
@@ -156,7 +144,7 @@ export default function HabitList() {
       {deleteTargetId !== null && (
         <ConfirmModal
           message="정말 이 습관을 삭제할까요?"
-          onConfirm={deleteHabit}
+          onConfirm={handleDelete}
           onCancel={() => setDeleteTargetId(null)}
         />
       )}

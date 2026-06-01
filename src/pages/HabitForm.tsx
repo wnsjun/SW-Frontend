@@ -1,12 +1,18 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import Navbar from '../components/common/Navbar';
 import Button from '../components/common/Button';
 import HabitFormBanner from '../components/habit/HabitFormBanner';
 import DaySelectModal from '../components/habit/DaySelectModal';
 import { typo } from '../styles/typography';
 import type { HabitCategory } from '../components/home/HabitCard';
+import type { DayOfWeek } from '../types/habit';
+import { getHabits, postHabit, putHabit } from '../api/habit';
 
 type FrequencyType = 'DAILY' | 'CUSTOM';
+
+const DAY_ORDER = ['월', '화', '수', '목', '금', '토', '일'];
+const sortDays = (days: string[]) => [...days].sort((a, b) => DAY_ORDER.indexOf(a) - DAY_ORDER.indexOf(b));
 
 const CATEGORIES: { value: HabitCategory; label: string }[] = [
   { value: 'HEALTH', label: '건강' },
@@ -15,14 +21,43 @@ const CATEGORIES: { value: HabitCategory; label: string }[] = [
   { value: 'ETC', label: '기타' },
 ];
 
+const KOREAN_TO_DOW: Record<string, DayOfWeek> = {
+  '월': 'MONDAY', '화': 'TUESDAY', '수': 'WEDNESDAY',
+  '목': 'THURSDAY', '금': 'FRIDAY', '토': 'SATURDAY', '일': 'SUNDAY',
+};
+const DOW_TO_KOREAN: Record<DayOfWeek, string> = {
+  MONDAY: '월', TUESDAY: '화', WEDNESDAY: '수',
+  THURSDAY: '목', FRIDAY: '금', SATURDAY: '토', SUNDAY: '일',
+};
+
 const LABEL_STYLE = `${typo.B2_Rg} text-[#3D4A3E]`;
 
 export default function HabitForm() {
+  const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
+  const isEdit = !!id;
+
   const [name, setName] = useState('');
   const [frequency, setFrequency] = useState<FrequencyType | null>(null);
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const [category, setCategory] = useState<HabitCategory | null>(null);
   const [showDayModal, setShowDayModal] = useState(false);
+
+  useEffect(() => {
+    if (!isEdit) return;
+    getHabits().then((habits) => {
+      const habit = habits.find((h) => h.id === Number(id));
+      if (!habit) return;
+      setName(habit.name);
+      setCategory(habit.category as HabitCategory);
+      if (habit.frequencyType === 'DAILY') {
+        setFrequency('DAILY');
+      } else if (habit.frequencyType === 'CUSTOM') {
+        setFrequency('CUSTOM');
+        setSelectedDays(habit.customDays.map((d) => DOW_TO_KOREAN[d]));
+      }
+    });
+  }, [id, isEdit]);
 
   const handleFrequencyClick = (type: FrequencyType) => {
     setFrequency(type);
@@ -30,9 +65,23 @@ export default function HabitForm() {
     if (type === 'DAILY') setSelectedDays([]);
   };
 
+  const handleSubmit = async () => {
+    if (!name.trim() || !frequency || !category) return;
+    const customDays = frequency === 'CUSTOM'
+      ? selectedDays.map((d) => KOREAN_TO_DOW[d])
+      : null;
+
+    if (isEdit) {
+      await putHabit(Number(id), { name, category, frequencyType: frequency, customDays });
+    } else {
+      await postHabit({ name, category, frequencyType: frequency, customDays });
+    }
+    navigate('/habits');
+  };
+
   return (
     <div className="min-h-screen bg-white">
-      <Navbar variant="back" title="습관 등록/수정" />
+      <Navbar variant="back" title={isEdit ? '습관 수정' : '습관 등록'} />
 
       <div className="flex flex-col px-5 pb-10">
         <div className="mt-[24px]">
@@ -110,6 +159,7 @@ export default function HabitForm() {
 
         <div className="mt-[30px] flex justify-center">
           <Button
+            onClick={handleSubmit}
             disabled={
               !name.trim() ||
               frequency === null ||
@@ -126,11 +176,11 @@ export default function HabitForm() {
         <DaySelectModal
           selected={selectedDays}
           onConfirm={(days) => {
-            setSelectedDays(days);
+            setSelectedDays(sortDays(days));
             setShowDayModal(false);
           }}
           onCancel={() => {
-            setFrequency('DAILY');
+            setFrequency(isEdit ? 'CUSTOM' : 'DAILY');
             setShowDayModal(false);
           }}
         />
