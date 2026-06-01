@@ -6,9 +6,10 @@ export type HabitFilter = HabitCategory | 'ALL';
 const FILTERS: { label: string; value: HabitFilter }[] = [
   { label: '전체', value: 'ALL' },
   { label: '건강', value: 'HEALTH' },
-  { label: '학습', value: 'LEARNING' },
-  { label: '생산성', value: 'PRODUCTIVITY' },
-  { label: '기타', value: 'ETC' },
+  { label: '학습', value: 'STUDY' },
+  { label: '생활', value: 'LIFESTYLE' },
+  { label: '운동', value: 'EXERCISE' },
+  { label: '기타', value: 'OTHER' },
 ];
 
 interface Props {

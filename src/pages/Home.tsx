@@ -1,42 +1,69 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/common/Navbar';
 import AiCoaching from '../components/home/AiCoaching';
 import TodayGoal from '../components/home/TodayGoal';
 import TotalStreak from '../components/home/TotalStreak';
-import HabitCard, { type HabitCategory } from '../components/home/HabitCard';
+import HabitCard from '../components/home/HabitCard';
 import AddHabitCard from '../components/home/AddHabitCard';
 import HabitFilter, { type HabitFilter as HabitFilterType } from '../components/home/HabitFilter';
 import { typo } from '../styles/typography';
+import { getTodayHabits, postCheckIn, deleteCheckIn } from '../api/habit';
+import { getAiCoaching } from '../api/ai';
+import type { TodayHabit } from '../types/habit';
+import type { HabitCategory } from '../components/home/HabitCard';
 
-interface Habit {
-  id: number;
-  title: string;
-  category: HabitCategory;
-  schedule: string;
-  completed: boolean;
+const DAY_LABEL: Record<string, string> = {
+  MONDAY: '월', TUESDAY: '화', WEDNESDAY: '수',
+  THURSDAY: '목', FRIDAY: '금', SATURDAY: '토', SUNDAY: '일',
+};
+
+function formatSchedule(habit: TodayHabit): string {
+  if (habit.frequencyType === 'DAILY') return '매일';
+  if (habit.frequencyType === 'CUSTOM') return habit.customDays.map((d) => DAY_LABEL[d]).join(', ');
+  return '주 1회';
 }
-
-const MOCK_HABITS: Habit[] = [
-  { id: 1, title: '아침 운동', category: 'HEALTH', schedule: '매일', completed: false },
-  { id: 2, title: '독서', category: 'LEARNING', schedule: '평일', completed: true },
-  { id: 3, title: '할 일 목록 작성', category: 'PRODUCTIVITY', schedule: '매일', completed: false },
-];
 
 export default function Home() {
   const navigate = useNavigate();
   const nickname = localStorage.getItem('nickname') ?? '';
-  const [habits, setHabits] = useState<Habit[]>(MOCK_HABITS);
+  const [habits, setHabits] = useState<TodayHabit[]>([]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [completedCount, setCompletedCount] = useState(0);
+  const [maxStreak, setMaxStreak] = useState(0);
+  const [coachingMessage, setCoachingMessage] = useState('');
   const [filter, setFilter] = useState<HabitFilterType>('ALL');
+  // habitId -> checkInId (체크인 후 취소에 사용)
+  const [checkInIdMap, setCheckInIdMap] = useState<Record<number, number>>({});
 
-  const toggleHabit = (id: number) => {
-    setHabits((prev) =>
-      prev.map((h) => (h.id === id ? { ...h, completed: !h.completed } : h))
-    );
+  useEffect(() => {
+    getTodayHabits().then((data) => {
+      setHabits(data.habits);
+      setTotalCount(data.totalCount);
+      setCompletedCount(data.completedCount);
+      setMaxStreak(data.maxStreak);
+    });
+    getAiCoaching().then(setCoachingMessage);
+  }, []);
+
+  const handleToggle = async (habit: TodayHabit) => {
+    if (habit.completedToday) {
+      const checkInId = checkInIdMap[habit.id];
+      if (checkInId == null) return;
+      await deleteCheckIn(checkInId);
+      setCheckInIdMap((prev) => { const next = { ...prev }; delete next[habit.id]; return next; });
+      setHabits((prev) => prev.map((h) => h.id === habit.id ? { ...h, completedToday: false } : h));
+      setCompletedCount((c) => c - 1);
+    } else {
+      const data = await postCheckIn(habit.id);
+      setCheckInIdMap((prev) => ({ ...prev, [habit.id]: data.checkInId }));
+      setHabits((prev) => prev.map((h) => h.id === habit.id ? { ...h, completedToday: true } : h));
+      setCompletedCount((c) => c + 1);
+    }
   };
 
-  const filteredHabits = filter === 'ALL' ? habits : habits.filter((h) => h.category === filter);
-  const completedCount = habits.filter((h) => h.completed).length;
+  const filteredHabits =
+    filter === 'ALL' ? habits : habits.filter((h) => h.category === filter);
 
   return (
     <div className="min-h-screen bg-white">
@@ -44,12 +71,12 @@ export default function Home() {
 
       <div className="flex flex-col px-5">
         <div className="mt-[10px]">
-          <AiCoaching />
+          <AiCoaching message={coachingMessage} />
         </div>
 
         <div className="grid grid-cols-2 gap-[10px] mt-[30px]">
-          <TodayGoal total={habits.length} completed={completedCount} />
-          <TotalStreak streak={10} />
+          <TodayGoal total={totalCount} completed={completedCount} />
+          <TotalStreak streak={maxStreak} />
         </div>
 
         <div className="flex justify-between items-center mt-[30px]">
@@ -70,11 +97,11 @@ export default function Home() {
           {filteredHabits.map((habit) => (
             <HabitCard
               key={habit.id}
-              title={habit.title}
-              category={habit.category}
-              schedule={habit.schedule}
-              completed={habit.completed}
-              onToggle={() => toggleHabit(habit.id)}
+              title={habit.name}
+              category={habit.category as HabitCategory}
+              schedule={formatSchedule(habit)}
+              completed={habit.completedToday}
+              onToggle={() => handleToggle(habit)}
             />
           ))}
         </div>
