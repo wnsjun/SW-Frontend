@@ -69,7 +69,10 @@ export default function Mypage() {
         </div>
 
         <div className="mt-[32px]">
-          <SettingsSection onWithdraw={() => setShowWithdrawConfirm(true)} />
+          <SettingsSection
+            onHabitManage={() => navigate('/habits')}
+            onWithdraw={() => setShowWithdrawConfirm(true)}
+          />
         </div>
 
         <button

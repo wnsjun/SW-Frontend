@@ -13,9 +13,10 @@ function NextIcon({ color }: { color: string }) {
 
 interface Props {
   onWithdraw?: () => void;
+  onHabitManage?: () => void;
 }
 
-export default function SettingsSection({ onWithdraw }: Props) {
+export default function SettingsSection({ onWithdraw, onHabitManage }: Props) {
   return (
     <div
       className="flex flex-col"
@@ -27,7 +28,10 @@ export default function SettingsSection({ onWithdraw }: Props) {
       </div>
 
       {/* 습관 관리 */}
-      <div className="flex items-center justify-between self-stretch p-[16px] mt-[10px]">
+      <button
+        className="flex items-center justify-between self-stretch p-[16px]"
+        onClick={onHabitManage}
+      >
         <div className="flex items-center gap-[16px]">
           <img src={calendarIcon} alt="calendar" />
           <span className={`${typo.B2_Rg} text-[#191C1D]`} style={{ lineHeight: '24px' }}>
@@ -35,7 +39,7 @@ export default function SettingsSection({ onWithdraw }: Props) {
           </span>
         </div>
         <NextIcon color="#6D7B6D" />
-      </div>
+      </button>
 
       {/* 화면 설정 */}
       <div
