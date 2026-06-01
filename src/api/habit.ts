@@ -15,8 +15,10 @@ export const deleteCheckIn = async (checkInId: number): Promise<void> => {
   await instance.delete(`/api/v1/check-in/${checkInId}`);
 };
 
-export const getHabits = async (): Promise<HabitsResponse['data']> => {
-  const res = await instance.get<HabitsResponse>('/api/v1/habits');
+export const getHabits = async (dayOfWeek?: string): Promise<HabitsResponse['data']> => {
+  const res = await instance.get<HabitsResponse>('/api/v1/habits', {
+    params: dayOfWeek ? { dayOfWeek } : undefined,
+  });
   return res.data.data;
 };
 

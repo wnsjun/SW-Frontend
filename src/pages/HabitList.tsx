@@ -19,32 +19,23 @@ import editIcon from '../assets/edit.svg';
 import { typo } from '../styles/typography';
 import { getHabits, deleteHabit } from '../api/habit';
 import type { TodayHabit, DayOfWeek } from '../types/habit';
+// DayOfWeek used in FILTER_TO_DOW mapping
 
 const DAY_LABEL: Record<string, string> = {
   MONDAY: '월', TUESDAY: '화', WEDNESDAY: '수',
   THURSDAY: '목', FRIDAY: '금', SATURDAY: '토', SUNDAY: '일',
 };
 
-const FILTER_TO_DOW: Record<Exclude<DayFilterType, 'TODAY'>, DayOfWeek> = {
+const FILTER_TO_DOW: Record<DayFilterType, DayOfWeek | undefined> = {
+  TODAY: undefined,
   MON: 'MONDAY', TUE: 'TUESDAY', WED: 'WEDNESDAY',
   THU: 'THURSDAY', FRI: 'FRIDAY', SAT: 'SATURDAY', SUN: 'SUNDAY',
 };
-
-const TODAY_DOW = (['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'] as DayOfWeek[])[new Date().getDay()];
 
 function formatSchedule(habit: TodayHabit): string {
   if (habit.frequencyType === 'DAILY') return '매일';
   if (habit.frequencyType === 'CUSTOM') return habit.customDays.map((d) => DAY_LABEL[d]).join(', ');
   return '주 1회';
-}
-
-function matchesDay(habit: TodayHabit, day: DayFilterType): boolean {
-  if (habit.frequencyType === 'DAILY') return true;
-  if (habit.frequencyType === 'CUSTOM') {
-    const target = day === 'TODAY' ? TODAY_DOW : FILTER_TO_DOW[day];
-    return habit.customDays.includes(target);
-  }
-  return true;
 }
 
 export default function HabitList() {
@@ -62,8 +53,8 @@ export default function HabitList() {
   );
 
   useEffect(() => {
-    getHabits().then(setHabits);
-  }, []);
+    getHabits(FILTER_TO_DOW[dayFilter]).then(setHabits);
+  }, [dayFilter]);
 
   const handleDelete = async () => {
     if (deleteTargetId === null) return;
@@ -86,7 +77,7 @@ export default function HabitList() {
   const filtered = habits.filter((h) => {
     const matchesSearch = h.name.includes(search);
     const matchesCategory = categoryFilter === 'ALL' || h.category === categoryFilter;
-    return matchesSearch && matchesCategory && matchesDay(h, dayFilter);
+    return matchesSearch && matchesCategory;
   });
 
   return (

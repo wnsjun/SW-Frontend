@@ -11,6 +11,9 @@ import { getHabits, postHabit, putHabit } from '../api/habit';
 
 type FrequencyType = 'DAILY' | 'CUSTOM';
 
+const DAY_ORDER = ['월', '화', '수', '목', '금', '토', '일'];
+const sortDays = (days: string[]) => [...days].sort((a, b) => DAY_ORDER.indexOf(a) - DAY_ORDER.indexOf(b));
+
 const CATEGORIES: { value: HabitCategory; label: string }[] = [
   { value: 'HEALTH', label: '건강' },
   { value: 'LEARNING', label: '학습' },
@@ -173,7 +176,7 @@ export default function HabitForm() {
         <DaySelectModal
           selected={selectedDays}
           onConfirm={(days) => {
-            setSelectedDays(days);
+            setSelectedDays(sortDays(days));
             setShowDayModal(false);
           }}
           onCancel={() => {
