@@ -10,17 +10,7 @@ interface Props {
   data?: DayData[];
 }
 
-const MOCK_DATA: DayData[] = [
-  { day: '월', percentage: 80 },
-  { day: '화', percentage: 100 },
-  { day: '수', percentage: 60 },
-  { day: '목', percentage: 40 },
-  { day: '금', percentage: 100 },
-  { day: '토', percentage: 20 },
-  { day: '일', percentage: 75 },
-];
-
-export default function WeeklyChart({ data = MOCK_DATA }: Props) {
+export default function WeeklyChart({ data = [] }: Props) {
   return (
     <div
       className="flex flex-col w-full"
