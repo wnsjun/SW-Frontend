@@ -25,6 +25,33 @@ export interface CheckInResponse {
   };
 }
 
+export interface HabitRequest {
+  name: string;
+  category: Category;
+  frequencyType: FrequencyType;
+  customDays: DayOfWeek[] | null;
+}
+
+export interface HabitMutationResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: {
+    id: number;
+    name: string;
+    category: Category;
+    frequencyType: FrequencyType;
+    customDays: DayOfWeek[];
+  };
+}
+
+export interface HabitsResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: TodayHabit[];
+}
+
 export interface TodayHabitsResponse {
   status: number;
   code: string;
