@@ -3,6 +3,10 @@ import type { LoginRequest, LoginResponse, SignupRequest, SignupResponse } from 
 
 export const postLogin = async (data: LoginRequest): Promise<LoginResponse> => {
   const res = await instance.post<LoginResponse>('/api/v1/auth/login', data);
+  const { accessToken } = res.data.data.token;
+  const { nickname } = res.data.data;
+  localStorage.setItem('accessToken', accessToken);
+  localStorage.setItem('nickname', nickname);
   return res.data;
 };
 

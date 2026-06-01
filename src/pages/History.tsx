@@ -62,6 +62,7 @@ function formatDateLabel(dateStr: string): string {
 }
 
 export default function History() {
+  const nickname = localStorage.getItem('nickname') ?? '';
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
   const habits = selectedDate ? (MOCK_HISTORY[selectedDate] ?? []) : [];
@@ -69,7 +70,7 @@ export default function History() {
 
   return (
     <div className="min-h-screen bg-white pb-[100px]">
-      <Navbar variant="greeting" nickname="준희" />
+      <Navbar variant="greeting" nickname={nickname} />
 
       <div className="mt-[15px]">
         <HistoryCalendar selectedDate={selectedDate} onSelectDate={setSelectedDate} />

@@ -11,16 +11,27 @@ function NextIcon({ color }: { color: string }) {
   );
 }
 
-export default function SettingsSection() {
+interface Props {
+  onWithdraw?: () => void;
+  onHabitManage?: () => void;
+}
+
+export default function SettingsSection({ onWithdraw, onHabitManage }: Props) {
   return (
-    <div className="flex flex-col">
+    <div
+      className="flex flex-col"
+      style={{ borderRadius: '12px', border: '1px solid rgba(188, 202, 187, 0.20)', background: '#FFF', boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.04)', overflow: 'hidden' }}
+    >
       {/* 환경설정 타이틀 */}
       <div className="flex flex-col items-start self-stretch px-[4px] py-0">
         <span className={`${typo.B2_Rg} text-[#3D4A3E]`}>환경설정</span>
       </div>
 
       {/* 습관 관리 */}
-      <div className="flex items-center justify-between self-stretch p-[16px] mt-[10px]">
+      <button
+        className="flex items-center justify-between self-stretch p-[16px]"
+        onClick={onHabitManage}
+      >
         <div className="flex items-center gap-[16px]">
           <img src={calendarIcon} alt="calendar" />
           <span className={`${typo.B2_Rg} text-[#191C1D]`} style={{ lineHeight: '24px' }}>
@@ -28,7 +39,7 @@ export default function SettingsSection() {
           </span>
         </div>
         <NextIcon color="#6D7B6D" />
-      </div>
+      </button>
 
       {/* 화면 설정 */}
       <div
@@ -49,7 +60,11 @@ export default function SettingsSection() {
       </div>
 
       {/* 회원 탈퇴 */}
-      <div className="flex items-center justify-between self-stretch p-[16px] mt-[5px]">
+      <button
+        className="flex items-center justify-between self-stretch p-[16px]"
+        style={{ borderTop: '1px solid rgba(188, 202, 187, 0.30)' }}
+        onClick={onWithdraw}
+      >
         <div className="flex items-center gap-[16px]">
           <img src={exitIcon} alt="exit" />
           <span className={`${typo.B2_Rg} text-[#BA1A1A]`} style={{ lineHeight: '24px' }}>
@@ -57,7 +72,7 @@ export default function SettingsSection() {
           </span>
         </div>
         <NextIcon color="#BA1A1A" />
-      </div>
+      </button>
     </div>
   );
 }

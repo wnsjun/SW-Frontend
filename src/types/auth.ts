@@ -10,8 +10,15 @@ export interface SignupRequest {
 }
 
 export interface LoginResponse {
-  accessToken: string;
-  refreshToken: string;
+  status: number;
+  code: string;
+  message: string;
+  data: {
+    token: {
+      accessToken: string;
+    };
+    nickname: string;
+  };
 }
 
 export interface SignupResponse {

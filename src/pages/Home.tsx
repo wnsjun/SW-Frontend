@@ -25,6 +25,7 @@ const MOCK_HABITS: Habit[] = [
 
 export default function Home() {
   const navigate = useNavigate();
+  const nickname = localStorage.getItem('nickname') ?? '';
   const [habits, setHabits] = useState<Habit[]>(MOCK_HABITS);
   const [filter, setFilter] = useState<HabitFilterType>('ALL');
 
@@ -39,7 +40,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navbar variant="greeting" nickname="준희" />
+      <Navbar variant="greeting" nickname={nickname} />
 
       <div className="flex flex-col px-5">
         <div className="mt-[10px]">
