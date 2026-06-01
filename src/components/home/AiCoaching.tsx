@@ -1,8 +1,10 @@
 import rocketIcon from '../../assets/rocket.svg';
 
-const COACHING_MESSAGE = '오늘도 챌린지를 이어가 볼까요?🔥현재 5일 연속 성공 중이에요! 조금만 더 힘내서 완주해봐요. ✨';
+interface Props {
+  message: string;
+}
 
-export default function AiCoaching() {
+export default function AiCoaching({ message }: Props) {
   return (
     <div
       className="flex flex-col items-start rounded-[12px]"
@@ -38,7 +40,7 @@ export default function AiCoaching() {
           marginTop: '3px',
         }}
       >
-        {COACHING_MESSAGE}
+        {message}
       </p>
     </div>
   );
