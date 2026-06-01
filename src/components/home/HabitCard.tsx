@@ -3,14 +3,13 @@ import checkIcon from '../../assets/check.svg';
 import dragHandleIcon from '../../assets/drag-handle.svg';
 import removeCircleIcon from '../../assets/remove-circle.svg';
 
-export type HabitCategory = 'HEALTH' | 'STUDY' | 'LIFESTYLE' | 'EXERCISE' | 'OTHER';
+export type HabitCategory = 'HEALTH' | 'LEARNING' | 'PRODUCTIVITY' | 'ETC';
 
 const CATEGORY_BG: Record<HabitCategory, string> = {
   HEALTH: 'rgba(74, 222, 128, 0.20)',
-  STUDY: 'rgba(96, 165, 250, 0.20)',
-  LIFESTYLE: 'rgba(251, 191, 36, 0.20)',
-  EXERCISE: 'rgba(251, 146, 60, 0.20)',
-  OTHER: 'rgba(203, 213, 225, 0.20)',
+  LEARNING: 'rgba(96, 165, 250, 0.20)',
+  PRODUCTIVITY: 'rgba(251, 191, 36, 0.20)',
+  ETC: 'rgba(203, 213, 225, 0.20)',
 };
 
 interface Props {
