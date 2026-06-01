@@ -9,14 +9,25 @@ const CATEGORY_BG: Record<HabitCategory, string> = {
   ETC: 'rgba(203, 213, 225, 0.20)',
 };
 
+function formatCheckedAt(checkedAtKst: string | null): string | null {
+  if (!checkedAtKst) return null;
+  const date = new Date(checkedAtKst);
+  if (isNaN(date.getTime())) return null;
+  const h = String(date.getHours()).padStart(2, '0');
+  const m = String(date.getMinutes()).padStart(2, '0');
+  return `${h}:${m} 완료`;
+}
+
 interface Props {
   title: string;
   category: HabitCategory;
-  schedule: string;
   completed: boolean;
+  checkedAt?: string | null;
 }
 
-export default function HistoryHabitCard({ title, category, schedule, completed }: Props) {
+export default function HistoryHabitCard({ title, category, completed, checkedAt }: Props) {
+  const checkedLabel = formatCheckedAt(checkedAt ?? null);
+
   return (
     <div
       className="flex justify-between items-center self-stretch"
@@ -37,12 +48,14 @@ export default function HistoryHabitCard({ title, category, schedule, completed 
           <span className={`${typo.T1_Md} text-[#191C1D]`} style={{ lineHeight: '27px' }}>
             {title}
           </span>
-          <span
-            className={`${typo.Cap_Md} text-[#3D4A3E] w-fit`}
-            style={{ padding: '2px 8px', borderRadius: '9999px', background: '#EDEEEF', lineHeight: '14px' }}
-          >
-            {schedule}
-          </span>
+          {checkedLabel && (
+            <span
+              className={`${typo.Cap_Md} text-[#3D4A3E] w-fit`}
+              style={{ padding: '2px 8px', borderRadius: '9999px', background: '#EDEEEF', lineHeight: '14px' }}
+            >
+              {checkedLabel}
+            </span>
+          )}
         </div>
       </div>
 
