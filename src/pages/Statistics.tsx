@@ -27,7 +27,7 @@ function getWeeklyData(dailyAchievements: DailyAchievement[]) {
   return Array.from({ length: 7 }, (_, i) => {
     const d = new Date(monday);
     d.setDate(monday.getDate() + i);
-    const dateStr = d.toISOString().slice(0, 10);
+    const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
     const found = dailyAchievements.find((a) => a.date === dateStr);
     return { day: DOW_TO_KR[d.getDay()], percentage: found ? Math.round(found.rate) : 0 };
   });
