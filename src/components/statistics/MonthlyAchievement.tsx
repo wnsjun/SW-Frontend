@@ -4,12 +4,12 @@ const RADIUS = 65;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
 interface Props {
-  total: number;
-  completed: number;
+  rate: number;
+  improvedFromLastMonth: number;
 }
 
-export default function MonthlyAchievement({ total, completed }: Props) {
-  const percentage = total === 0 ? 0 : Math.round((completed / total) * 100);
+export default function MonthlyAchievement({ rate, improvedFromLastMonth }: Props) {
+  const percentage = Math.round(rate);
   const offset = CIRCUMFERENCE * (1 - percentage / 100);
 
   return (

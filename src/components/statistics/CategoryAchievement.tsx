@@ -10,14 +10,7 @@ interface Props {
   data?: CategoryData[];
 }
 
-const MOCK_DATA: CategoryData[] = [
-  { label: '건강', percentage: 85, color: '#4ADE80' },
-  { label: '학습', percentage: 70, color: '#60A5FA' },
-  { label: '생산성', percentage: 55, color: '#FBBF24' },
-  { label: '기타', percentage: 40, color: '#94A3B8' },
-];
-
-export default function CategoryAchievement({ data = MOCK_DATA }: Props) {
+export default function CategoryAchievement({ data = [] }: Props) {
   return (
     <div
       className="flex flex-col w-full"
