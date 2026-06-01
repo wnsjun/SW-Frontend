@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 const DAY_LABELS = ['일', '월', '화', '수', '목', '금', '토'];
 
 interface Props {
-  selectedDate: string | null;
+  selectedDate: string;
   onSelectDate: (date: string) => void;
 }
 

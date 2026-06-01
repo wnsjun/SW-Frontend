@@ -14,7 +14,7 @@ export default function Navbar({ variant = 'default', title, nickname }: NavbarP
     return (
       <nav className="flex w-[390px] px-5 py-4 items-center border-b-[3px] border-[#F3F4F6]">
         <span className={`${typo.B2_Md} text-[#006D36]`} style={{ lineHeight: '24px' }}>
-          좋은 아침이에요, {nickname}님
+          좋은 하루 보내세요, {nickname}님
         </span>
       </nav>
     );
