@@ -16,7 +16,8 @@ function formatDateLabel(dateStr: string): string {
 
 export default function History() {
   const nickname = localStorage.getItem('nickname') ?? '';
-  const todayStr = new Date().toISOString().slice(0, 10);
+  const d = new Date();
+  const todayStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
   const [selectedDate, setSelectedDate] = useState<string>(todayStr);
   const [habits, setHabits] = useState<HistoryHabit[]>([]);
   const [completedCount, setCompletedCount] = useState(0);

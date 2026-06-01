@@ -33,7 +33,8 @@ export default function Home() {
   const [maxStreak, setMaxStreak] = useState(0);
   const [coachingMessage, setCoachingMessage] = useState('');
   const [filter, setFilter] = useState<HabitFilterType>('ALL');
-  const TODAY = new Date().toISOString().slice(0, 10);
+  const _d = new Date();
+  const TODAY = `${_d.getFullYear()}-${String(_d.getMonth() + 1).padStart(2, '0')}-${String(_d.getDate()).padStart(2, '0')}`;
   const STORAGE_KEY = 'checkInIdMap';
 
   const loadCheckInIdMap = (): Record<number, number> => {
