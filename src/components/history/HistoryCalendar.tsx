@@ -46,13 +46,13 @@ export default function HistoryCalendar({ selectedDate, onSelectDate }: Props) {
   return (
     <div className="flex flex-col px-5">
       <div className="flex items-center justify-between mb-4">
-        <button onClick={prevMonth} className="p-1">
+        <button onClick={prevMonth} className="p-1 cursor-pointer">
           <ChevronLeft size={20} color="#191C1D" />
         </button>
         <span className="font-pretendard-md text-[#191C1D]" style={{ fontSize: '16px', lineHeight: '24px' }}>
           {viewYear}년 {viewMonth + 1}월
         </span>
-        <button onClick={nextMonth} className="p-1">
+        <button onClick={nextMonth} className="p-1 cursor-pointer">
           <ChevronRight size={20} color="#191C1D" />
         </button>
       </div>
@@ -90,7 +90,7 @@ export default function HistoryCalendar({ selectedDate, onSelectDate }: Props) {
               <button
                 onClick={() => !future && onSelectDate(dateStr)}
                 disabled={future}
-                className="flex items-center justify-center w-8 h-8 rounded-full font-pretendard-rg"
+                className="flex items-center justify-center w-8 h-8 rounded-full font-pretendard-rg cursor-pointer disabled:cursor-default"
                 style={{ fontSize: '14px', color: textColor, background: bg }}
               >
                 {day}

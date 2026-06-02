@@ -33,7 +33,7 @@ export default function DayFilter({ selected, onChange }: Props) {
           <button
             key={value}
             onClick={() => onChange(value)}
-            className={`${typo.B4_Rg} tracking-[0.6px] inline-flex flex-col justify-center items-center`}
+            className={`${typo.B4_Rg} tracking-[0.6px] inline-flex flex-col justify-center items-center cursor-pointer`}
             style={{
               padding: '8px 16px',
               borderRadius: '9999px',

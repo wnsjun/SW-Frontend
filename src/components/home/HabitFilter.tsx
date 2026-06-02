@@ -23,7 +23,7 @@ export default function HabitFilter({ selected, onChange }: Props) {
         <button
           key={value}
           onClick={() => onChange(value)}
-          className={`${typo.B4_Rg} text-[#3D4A3E] text-center tracking-[0.6px]`}
+          className={`${typo.B4_Rg} text-[#3D4A3E] text-center tracking-[0.6px] cursor-pointer`}
           style={{
             padding: '8px 16px',
             borderRadius: '9999px',

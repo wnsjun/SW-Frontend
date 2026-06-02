@@ -23,7 +23,7 @@ export default function Navbar({ variant = 'default', title, nickname }: NavbarP
   if (variant === 'back') {
     return (
       <nav className="relative flex w-[390px] px-5 py-4 items-center border-b-[3px] border-[#F3F4F6]">
-        <button onClick={() => navigate(-1)} className="flex items-center">
+        <button onClick={() => navigate(-1)} className="flex items-center cursor-pointer">
           <ChevronLeft size={24} color="#006D36" />
         </button>
         <span

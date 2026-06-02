@@ -101,7 +101,7 @@ export default function HabitList() {
           <span className={`${typo.B1_Rg} text-[#191C1D]`} style={{ lineHeight: '24px' }}>
             나의 습관
           </span>
-          <button className="flex items-center gap-1" onClick={() => setEditMode((v) => !v)}>
+          <button className="flex items-center gap-1 cursor-pointer" onClick={() => setEditMode((v) => !v)}>
             {!editMode && <img src={editIcon} width={11} height={11} alt="" />}
             <span
               className={`${typo.B4_Rg} text-[#006D36] tracking-[0.6px]`}
