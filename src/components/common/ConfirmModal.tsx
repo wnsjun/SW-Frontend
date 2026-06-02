@@ -35,7 +35,7 @@ export default function ConfirmModal({ message, onConfirm, onCancel, confirmLabe
         <div className="flex w-full" style={{ gap: '8px' }}>
           <button
             onClick={onCancel}
-            className={`${typo.B3_Rg} text-[#6D7B6D] flex-1`}
+            className={`${typo.B3_Rg} text-[#6D7B6D] flex-1 cursor-pointer`}
             style={{
               padding: '12px',
               borderRadius: '8px',
@@ -47,7 +47,7 @@ export default function ConfirmModal({ message, onConfirm, onCancel, confirmLabe
           </button>
           <button
             onClick={onConfirm}
-            className={`${typo.B3_Rg} text-white flex-1`}
+            className={`${typo.B3_Rg} text-white flex-1 cursor-pointer`}
             style={{
               padding: '12px',
               borderRadius: '8px',

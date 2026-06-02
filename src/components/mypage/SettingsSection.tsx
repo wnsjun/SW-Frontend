@@ -29,7 +29,7 @@ export default function SettingsSection({ onWithdraw, onHabitManage }: Props) {
 
       {/* 습관 관리 */}
       <button
-        className="flex items-center justify-between self-stretch p-[16px]"
+        className="flex items-center justify-between self-stretch p-[16px] cursor-pointer"
         onClick={onHabitManage}
       >
         <div className="flex items-center gap-[16px]">
@@ -61,7 +61,7 @@ export default function SettingsSection({ onWithdraw, onHabitManage }: Props) {
 
       {/* 회원 탈퇴 */}
       <button
-        className="flex items-center justify-between self-stretch p-[16px]"
+        className="flex items-center justify-between self-stretch p-[16px] cursor-pointer"
         style={{ borderTop: '1px solid rgba(188, 202, 187, 0.30)' }}
         onClick={onWithdraw}
       >

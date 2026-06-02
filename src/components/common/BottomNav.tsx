@@ -28,7 +28,7 @@ export default function BottomNav() {
             <li key={path} className="flex-1">
               <button
                 onClick={() => navigate(path)}
-                className="flex flex-col items-center justify-center gap-1 w-full h-full"
+                className="flex flex-col items-center justify-center gap-1 w-full h-full cursor-pointer"
               >
                 <Icon size={22} color={color} strokeWidth={isActive ? 2.5 : 1.8} />
                 <span

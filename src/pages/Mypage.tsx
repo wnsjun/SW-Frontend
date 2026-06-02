@@ -76,7 +76,7 @@ export default function Mypage() {
         </div>
 
         <button
-          className="mt-[32px] flex items-center justify-center gap-[5px]"
+          className="mt-[32px] flex items-center justify-center gap-[5px] cursor-pointer"
           onClick={() => setShowLogoutConfirm(true)}
         >
           <img src={logoutIcon} alt="logout" />

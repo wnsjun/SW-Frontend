@@ -115,7 +115,7 @@ export default function HabitForm() {
               <button
                 key={type}
                 onClick={() => handleFrequencyClick(type)}
-                className={`${typo.B1_Rg} text-[#3D4A3E] text-center flex flex-col items-center justify-center`}
+                className={`${typo.B1_Rg} text-[#3D4A3E] text-center flex flex-col items-center justify-center cursor-pointer`}
                 style={{
                   padding: '17px',
                   borderRadius: '12px',
@@ -143,7 +143,7 @@ export default function HabitForm() {
               <button
                 key={value}
                 onClick={() => setCategory(value)}
-                className={`${typo.B3_Rg} text-[#3D4A3E] inline-flex items-center`}
+                className={`${typo.B3_Rg} text-[#3D4A3E] inline-flex items-center cursor-pointer`}
                 style={{
                   padding: '8px 16px',
                   borderRadius: '9999px',

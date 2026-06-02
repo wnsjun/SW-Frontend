@@ -37,7 +37,7 @@ export default function DaySelectModal({ selected, onConfirm, onCancel }: Props)
             <button
               key={day}
               onClick={() => toggle(day)}
-              className={`${typo.B4_Rg} text-[#3D4A3E] flex items-center justify-center aspect-square rounded-full`}
+              className={`${typo.B4_Rg} text-[#3D4A3E] flex items-center justify-center aspect-square rounded-full cursor-pointer`}
               style={{
                 border: days.includes(day) ? '2px solid #006D36' : '1px solid #BCCABB',
                 background: days.includes(day) ? 'rgba(74, 222, 128, 0.10)' : '#FFF',

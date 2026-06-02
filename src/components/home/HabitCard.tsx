@@ -83,7 +83,7 @@ export default function HabitCard({
         <div className="flex items-center shrink-0" style={{ gap: '10px' }}>
           <button
             onClick={onEdit}
-            className="font-pretendard-rg text-[#3D4A3E] tracking-[0.6px]"
+            className="font-pretendard-rg text-[#3D4A3E] tracking-[0.6px] cursor-pointer"
             style={{
               padding: '8px 16px',
               borderRadius: '8px',
@@ -94,14 +94,14 @@ export default function HabitCard({
           >
             수정
           </button>
-          <button onClick={onDelete}>
+          <button onClick={onDelete} className="cursor-pointer">
             <img src={removeCircleIcon} width={20} height={20} alt="삭제" />
           </button>
         </div>
       ) : showCheckbox && (
         <button
           onClick={onToggle}
-          className="flex justify-center items-center shrink-0"
+          className="flex justify-center items-center shrink-0 cursor-pointer"
           style={{
             width: '32px',
             height: '32px',
