@@ -61,7 +61,7 @@ export default function Home() {
       setCompletedCount(data.completedCount);
       setMaxStreak(data.maxStreak);
     });
-    getAiCoaching().then(setCoachingMessage);
+    getAiCoaching().then(setCoachingMessage).catch(() => {});
   }, []);
 
   const handleToggle = async (habit: TodayHabit) => {
