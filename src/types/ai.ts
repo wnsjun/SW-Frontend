@@ -1,6 +1,3 @@
-export interface AiCoachingResponse {
-  status: number;
-  code: string;
-  message: string;
-  data: string;
-}
+export type AiCoachingResponse =
+  | { hasMessage: true; content: string; generatedAt: string }
+  | { hasMessage: false; message: string };

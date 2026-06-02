@@ -38,6 +38,7 @@ export default function AiCoaching({ message }: Props) {
           fontWeight: 400,
           lineHeight: '22px',
           marginTop: '3px',
+          whiteSpace: 'pre-line',
         }}
       >
         {message}
