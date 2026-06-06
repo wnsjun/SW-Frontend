@@ -4,7 +4,9 @@ export type InsightType = 'COLD_START' | 'PENDING' | 'INSIGHT';
 
 export interface AiInsightData {
   type: InsightType;
-  insight?: string;
+  content?: string;
+  hasInsight: boolean;
+  generatedAt?: string;
 }
 
 export interface DailyAchievement {
