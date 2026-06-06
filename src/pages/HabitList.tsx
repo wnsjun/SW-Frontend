@@ -38,22 +38,6 @@ function formatSchedule(habit: TodayHabit): string {
   return '주 1회';
 }
 
-const STORAGE_KEY = 'checkInIdMap';
-
-function getTodayStr() {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-}
-
-function loadCheckInIdMap(): Record<number, number> {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return {};
-    const parsed = JSON.parse(raw);
-    return parsed.date === getTodayStr() ? parsed.map : {};
-  } catch { return {}; }
-}
-
 export default function HabitList() {
   const navigate = useNavigate();
   const [habits, setHabits] = useState<TodayHabit[]>([]);
@@ -62,7 +46,6 @@ export default function HabitList() {
   const [categoryFilter, setCategoryFilter] = useState<HabitFilterType>('ALL');
   const [editMode, setEditMode] = useState(false);
   const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
-  const [checkInIdMap, setCheckInIdMap] = useState<Record<number, number>>(loadCheckInIdMap);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -73,25 +56,12 @@ export default function HabitList() {
     getHabits(FILTER_TO_DOW[dayFilter]).then(setHabits);
   }, [dayFilter]);
 
-  const saveCheckInIdMap = (map: Record<number, number>) => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ date: getTodayStr(), map }));
-  };
-
   const handleToggle = async (habit: TodayHabit) => {
     if (habit.completedToday) {
-      const checkInId = checkInIdMap[habit.id];
-      if (checkInId == null) return;
-      await deleteCheckIn(checkInId);
-      const next = { ...checkInIdMap };
-      delete next[habit.id];
-      setCheckInIdMap(next);
-      saveCheckInIdMap(next);
+      await deleteCheckIn(habit.id);
       setHabits((prev) => prev.map((h) => h.id === habit.id ? { ...h, completedToday: false } : h));
     } else {
-      const data = await postCheckIn(habit.id);
-      const next = { ...checkInIdMap, [habit.id]: data.checkInId };
-      setCheckInIdMap(next);
-      saveCheckInIdMap(next);
+      await postCheckIn(habit.id);
       setHabits((prev) => prev.map((h) => h.id === habit.id ? { ...h, completedToday: true } : h));
     }
   };

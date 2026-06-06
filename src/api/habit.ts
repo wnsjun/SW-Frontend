@@ -11,8 +11,8 @@ export const postCheckIn = async (habitId: number): Promise<CheckInResponse['dat
   return res.data.data;
 };
 
-export const deleteCheckIn = async (checkInId: number): Promise<void> => {
-  await instance.delete(`/api/v1/check-in/${checkInId}`);
+export const deleteCheckIn = async (habitId: number): Promise<void> => {
+  await instance.delete(`/api/v1/check-in/${habitId}`);
 };
 
 export const getHabits = async (dayOfWeek?: string): Promise<HabitsResponse['data']> => {
