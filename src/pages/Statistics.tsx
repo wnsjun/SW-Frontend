@@ -45,7 +45,7 @@ export default function Statistics() {
   const nickname = localStorage.getItem('nickname') ?? '';
 
   const [coachingMessage, setCoachingMessage] = useState('');
-  const [insightData, setInsightData] = useState<AiInsightData>({ type: 'COLD_START' });
+  const [insightData, setInsightData] = useState<AiInsightData>({ type: 'COLD_START', hasInsight: false });
   const [monthlyRate, setMonthlyRate] = useState(0);
   const [improvedFromLastMonth, setImprovedFromLastMonth] = useState(0);
   const [weeklyData, setWeeklyData] = useState<{ day: string; percentage: number }[]>([]);
