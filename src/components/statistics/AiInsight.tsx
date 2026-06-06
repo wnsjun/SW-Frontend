@@ -11,7 +11,7 @@ interface Props {
 
 export default function AiInsight({ data }: Props) {
   if (!data) return null;
-  const message = data.type === 'INSIGHT' ? (data.insight ?? '') : FALLBACK_MESSAGES[data.type];
+  const message = data.type === 'INSIGHT' ? (data.content ?? '') : FALLBACK_MESSAGES[data.type];
 
   return (
     <div
