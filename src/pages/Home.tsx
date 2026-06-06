@@ -33,27 +33,6 @@ export default function Home() {
   const [maxStreak, setMaxStreak] = useState(0);
   const [coachingMessage, setCoachingMessage] = useState('');
   const [filter, setFilter] = useState<HabitFilterType>('ALL');
-  const _d = new Date();
-  const TODAY = `${_d.getFullYear()}-${String(_d.getMonth() + 1).padStart(2, '0')}-${String(_d.getDate()).padStart(2, '0')}`;
-  const STORAGE_KEY = 'checkInIdMap';
-
-  const loadCheckInIdMap = (): Record<number, number> => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return {};
-      const parsed = JSON.parse(raw);
-      return parsed.date === TODAY ? parsed.map : {};
-    } catch {
-      return {};
-    }
-  };
-
-  const [checkInIdMap, setCheckInIdMap] = useState<Record<number, number>>(loadCheckInIdMap);
-
-  const saveCheckInIdMap = (map: Record<number, number>) => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ date: TODAY, map }));
-  };
-
   useEffect(() => {
     getTodayHabits().then((data) => {
       setHabits(data.habits);
@@ -66,20 +45,11 @@ export default function Home() {
 
   const handleToggle = async (habit: TodayHabit) => {
     if (habit.completedToday) {
-      const checkInId = checkInIdMap[habit.id];
-      if (checkInId == null) return;
-      await deleteCheckIn(checkInId);
-      const next = { ...checkInIdMap };
-      delete next[habit.id];
-      setCheckInIdMap(next);
-      saveCheckInIdMap(next);
+      await deleteCheckIn(habit.id);
       setHabits((prev) => prev.map((h) => h.id === habit.id ? { ...h, completedToday: false } : h));
       setCompletedCount((c) => c - 1);
     } else {
-      const data = await postCheckIn(habit.id);
-      const next = { ...checkInIdMap, [habit.id]: data.checkInId };
-      setCheckInIdMap(next);
-      saveCheckInIdMap(next);
+      await postCheckIn(habit.id);
       setHabits((prev) => prev.map((h) => h.id === habit.id ? { ...h, completedToday: true } : h));
       setCompletedCount((c) => c + 1);
     }
